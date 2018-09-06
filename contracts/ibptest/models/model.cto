@@ -1,0 +1,98 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Dreamforce network definition.
+ */
+namespace org.dreamforce
+
+participant Contact identified by contactId {
+  o String contactId
+  o String password
+  o String attendeeFirstName
+  o String attendeeLastName
+  o String avatarName
+  o AvatarAddress avatarAddress
+  o String avatarIncome
+  o String[] avatarQuestionArray
+  o String[] avatarAnswerArray
+  o String[] blockchainDemosEngaged
+  o Boolean hasVehichle
+  o Boolean hasVehicleStatusReport
+  o Boolean hasLoan
+  o String notes
+}
+
+concept AvatarAddress {
+o String street
+o String city
+o String country
+}
+
+asset Vehicle identified by VIN {
+o String VIN
+o String make
+o String model
+o DateTime purchaseDateTime
+o String[] features
+o String summary
+--> Contact contact
+}
+
+asset VehicleStatus identified by VehicleStatusID {
+o String VehicleStatusID
+o String collison
+o Boolean airbagDeployed
+o DateTime vehcicleStatusDateTime
+--> Vehicle VIN
+}
+
+asset loan identified by loanID {
+o String loanID
+o Double originalAmount
+o Double RemainingAmount
+o DateTime loanDateTime
+o Integer remainingPayments
+o Double paymentAmount
+--> Contact contact
+--> Vehicle VIN
+}
+
+asset shipment identified by shipmentID {
+o String shipmentID
+o DateTime shipmentDateTime
+o String[] contents
+o String status
+o String location
+--> Contact contact
+--> Vehicle VIN
+}
+
+asset pointsLog identified by pointsLogID {
+o String pointsLogID
+o DateTime pointsLogDateTime
+o String Transaction
+o Integer Total
+--> Contact contact
+}
+
+transaction getMyContact {
+o String contactId
+o String password
+}
+
+transaction updateMyContact {
+ --> Contact asset
+  o String password
+}
